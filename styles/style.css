@@ -1,0 +1,31 @@
+#gameTable, #gameTable tr, #gameTable td {
+	border: 1px solid #C0C0C0;
+  background-color:yellow;
+}
+
+#gameTable {
+  margin-left:200px;
+ }
+
+/*#gameTable {
+	width:500px;
+  height:500px;
+}*/
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border: 1px solid gray;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px; 
+  background-color:#E0E0E0;
+} 
+
+.redCircle {
+  background-color:red;
+}
+
+.blackCircle {
+  background-color:black;
+}
