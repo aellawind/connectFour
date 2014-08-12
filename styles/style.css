@@ -49,12 +49,11 @@
   bottom:56px;
   position: absolute;
   transition-property: opacity, bottom;
-  -webkit-transition-duration: 1s; /* Safari */
-  transition-duration: 1s;
+  -webkit-transition-duration: 0.5s; /* Safari */
+  transition-duration: 0.5s;
   -webkit-transition-timing-function: linear; /* Safari and Chrome */
   transition-timing-function: linear;
-/*  transition-delay: 0.5s;
-*/  overflow:hidden;
+  overflow:hidden;
 
 }
 

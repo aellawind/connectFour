@@ -36,17 +36,17 @@ var animatePiece = function(rowDrop,column) {
         $tempCircle.addClass(colorClass);
         setTimeout(function() { 
           $tempCircle.addClass('dropped');
-        },row*500);
+        },row*250);
         setTimeout(function() {
           $tempCircle.remove(); // Remove the div once transition completes
-        },(row+1)*1000);
+        },(row+1)*500);
         if (row===rowDrop) {
           setTimeout(function() {
             // Change the color of the circle that gets the next piece 
             var rowString = '[data-row="' + rowDrop + '"]'; 
             var circle = document.querySelector(rowString).querySelector(columnString);
             $(circle).addClass(colorClass);
-          },row*500+500);
+          },row*250+250);
         }
       })(j);
     }
@@ -67,7 +67,7 @@ Gameboard.prototype.dropCircle = function(column) {
   if (rowDrop >= 0) {
     board.boardMatrix[rowDrop][column] = currentPlayer.color;
     animatePiece(rowDrop,column);
-    return true;
+    return rowDrop;
   }
   return false;
 };
@@ -85,7 +85,7 @@ Gameboard.prototype.checkForWin = function(row,column) {
       // For every i, we check the next 4
       var rightFour = i+3<board.columns ? i+3 : board.columns-1;
       var hasFourInARow = true;
-      for (var j = i; j <= rightFour; j++) {
+      for (var j = i; j <= rightFour; j++) {        
         if (board.boardMatrix[row][j] !== currentPlayer.color) {
           hasFourInARow = false;
         }
@@ -216,12 +216,12 @@ var currentPlayer = playerOne;
 
 // Event handler for when the user clicks on a circle
 $('.circle').on('click', function(event) {
-  var row = parseInt($(this).parent().parent().data('row'));
   var column = parseInt($(this).data('column'));
+  var rowPlaced = currentGame.dropCircle(column);
 
-	if(currentGame.dropCircle(column)) {
+	if(rowPlaced !== false) {
     // Check the game to see if there is a win
-    if(currentGame.checkForWin(row,column)) {
+    if(currentGame.checkForWin(rowPlaced,column)) {
       alert('You have won!');
     }
     // We are now switching players
