@@ -57,7 +57,6 @@ Gameboard.prototype.checkForWin = function(row,column) {
   var rightEnd = this.columns-column >= 4 ? column : this.columns-4;
   var topStart = row-3 >= 0 ? row-3 : 0;
   var bottomEnd = this.rows-row >= 4 ? row : this.rows-4;
-  console.log(leftStart,rightEnd,topStart,bottomEnd);
 
   var checkHorizontal = function() {
     for (var i = leftStart; i <= rightEnd; i++) {
@@ -94,13 +93,95 @@ Gameboard.prototype.checkForWin = function(row,column) {
     return false;
   };
 
+  var getTopStart = function() {
+    var point = {};
+    point.top = row-3;
+    point.left = column-3;
+    if (point.top < 0) {
+      point.left = point.left-point.top; // Add the difference to our left point
+      point.top = 0;
+    } else if (point.left < 0) {
+      point.top = point.top-point.left;
+      point.left = 0;
+    }
+    return point;
+  };
+
+  var getTopRightStart = function() {
+    var point = {};
+    point.top = row-3;
+    point.right = column+3;
+    if (point.top < 0) {
+      point.right = point.right+point.top; // Add the difference to our left point
+      point.top = 0;
+    } else if (point.right >=board.columns) {
+      point.top = point.top + point.right - board.columns;
+      point.right = board.columns-1;
+    }
+    return point;
+  };
+
   // check diagonals
-  var checkDiagonal = function() {
+  var checkUpDownDiagonal = function() {
+    var startPoint = getTopStart();
+    var xStart = startPoint.left;
+    var yStart = startPoint.top;
+    // Iterate over all of our possible start points
+    for (var i = startPoint.left; i <= column ; i++) {
+      var hasFourInARow = true;
+      var x = xStart;
+      var y = yStart;
+      var j;
+      // Check the next four circles (diagonally)
+      for (j = 0; j<4; j++) {
+        if (board.boardMatrix[y][x] !== currentPlayer.color) {
+          hasFourInARow = false;
+        }
+        x++;
+        y++;
+        if (x >= board.columns || y >= board.rows) { break; }
+      }
+      if (hasFourInARow === true && j===3) {
+        return true;
+      }
+      xStart++;
+      yStart++;
+    }
     return false;
   };
 
-  console.log('vert', checkVertical()); 
-  if (checkHorizontal() || checkVertical() || checkDiagonal()) {
+  var checkDownUpDiagonal = function() {
+    var startPoint = getTopRightStart();
+    var xStart = startPoint.right;
+    var yStart = startPoint.top;
+    // Iterate over all of our possible start points
+    for (var i = startPoint.right; i >= column ; i--) {
+      var hasFourInARow = true;
+      var x = xStart;
+      var y = yStart;
+      var j;
+      // Check the next four circles (diagonally)
+      for (j = 0; j<4; j++) {
+        console.log('');
+        console.log('new');
+        console.log('xy',y,x);
+        if (board.boardMatrix[y][x] !== currentPlayer.color) {
+          hasFourInARow = false;
+        }
+        x--;
+        y++;
+        if (x < 0|| y >= board.rows) { break; }
+      }
+      if (hasFourInARow === true && j===3) {
+        return true;
+      }
+      xStart--;
+      yStart++;
+    }
+    return false;
+  };
+
+  if (checkHorizontal() || checkVertical() || checkUpDownDiagonal() || checkDownUpDiagonal()) {
     return true;
   }
   return false;
