@@ -22,6 +22,36 @@ var Player = function(color) {
   this.color = color;
 };
 
+// This function animates a piece from the top of the board to the inputted location
+var animatePiece = function(rowDrop,column) {
+    
+    var columnString = '[data-column="' + column + '"]';
+    var colorClass = currentPlayer === playerOne ? 'redCircle' : 'blackCircle';
+    // Animate the circle from top to bottom
+    for (var j = 0; j <= rowDrop; j++) {
+      (function(row) {
+        var rowStringStart = '[data-row="' + row + '"]';
+        $circleToAnimate = $(document.querySelector(rowStringStart).querySelector(columnString));
+        var $tempCircle = $('<div class="circle tempCircle"></div>').appendTo($circleToAnimate);
+        $tempCircle.addClass(colorClass);
+        setTimeout(function() { 
+          $tempCircle.addClass('dropped');
+        },row*500);
+        setTimeout(function() {
+          $tempCircle.remove(); // Remove the div once transition completes
+        },(row+1)*1000);
+        if (row===rowDrop) {
+          setTimeout(function() {
+            // Change the color of the circle that gets the next piece 
+            var rowString = '[data-row="' + rowDrop + '"]'; 
+            var circle = document.querySelector(rowString).querySelector(columnString);
+            $(circle).addClass(colorClass);
+          },row*500+500);
+        }
+      })(j);
+    }
+};
+
 Gameboard.prototype.dropCircle = function(column) {
   var board = this;
   var getDropLocation = function(column) {
@@ -36,15 +66,7 @@ Gameboard.prototype.dropCircle = function(column) {
   var rowDrop = getDropLocation(column);
   if (rowDrop >= 0) {
     board.boardMatrix[rowDrop][column] = currentPlayer.color;
-    // Change the correct color
-    var rowString = '[data-row="' + rowDrop + '"]';
-    var columnString = '[data-column="' + column + '"]';
-    var circle = document.querySelector(rowString).querySelector(columnString);
-    if(currentPlayer === playerOne) {
-      $(circle).addClass('redCircle');
-    } else if(currentPlayer === playerTwo) {
-      $(circle).addClass('blackCircle');
-    }
+    animatePiece(rowDrop,column);
     return true;
   }
   return false;
@@ -162,9 +184,6 @@ Gameboard.prototype.checkForWin = function(row,column) {
       var j;
       // Check the next four circles (diagonally)
       for (j = 0; j<4; j++) {
-        console.log('');
-        console.log('new');
-        console.log('xy',y,x);
         if (board.boardMatrix[y][x] !== currentPlayer.color) {
           hasFourInARow = false;
         }
@@ -199,12 +218,12 @@ var currentPlayer = playerOne;
 $('.circle').on('click', function(event) {
   var row = parseInt($(this).parent().parent().data('row'));
   var column = parseInt($(this).data('column'));
+
 	if(currentGame.dropCircle(column)) {
     // Check the game to see if there is a win
     if(currentGame.checkForWin(row,column)) {
       alert('You have won!');
     }
-
     // We are now switching players
     currentPlayer = currentPlayer === playerOne ? playerTwo: playerOne;
   }

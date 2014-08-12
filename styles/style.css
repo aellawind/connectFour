@@ -7,6 +7,16 @@
   margin-left:200px;
  }
 
+ #test {
+  z-index:3;
+  height:100px;
+  width:100px;
+  background-color:blue;
+  position:absolute;
+  left:500px;
+  top:100px;
+ }
+
 /*#gameTable {
 	width:500px;
   height:500px;
@@ -20,12 +30,34 @@
   -moz-border-radius: 25px;
   border-radius: 25px; 
   background-color:#E0E0E0;
+  overflow:hidden;
+  position:relative;
 } 
 
 .redCircle {
   background-color:red;
+  border:none;
 }
 
 .blackCircle {
   background-color:black;
+  border:none;
+}
+
+.tempCircle {
+  display: block;
+  bottom:56px;
+  position: absolute;
+  transition-property: opacity, bottom;
+  -webkit-transition-duration: 1s; /* Safari */
+  transition-duration: 1s;
+  -webkit-transition-timing-function: linear; /* Safari and Chrome */
+  transition-timing-function: linear;
+/*  transition-delay: 0.5s;
+*/  overflow:hidden;
+
+}
+
+.dropped {
+  bottom: -59px; /* Negative height of the circle plus the 2 pixels in the border*/
 }
