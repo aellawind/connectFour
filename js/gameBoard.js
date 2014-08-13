@@ -84,7 +84,7 @@
   };
 
   // Check the diagonal solutions from left up down right
-  var checkUpDownDiagonal = function(row, column) {
+  var checkLeftRightDiagonal = function(row, column) {
     var startPoint = getTopStart(row, column);
     var xStart = startPoint.left;
     var yStart = startPoint.top;
@@ -114,7 +114,7 @@
   };
 
   // Check the diagonal solutions from right up to down left
-  var checkDownUpDiagonal = function(row, column) {
+  var checkRightLeftDiagonal = function(row, column) {
     var startPoint = getTopRightStart(row, column);
     var xStart = startPoint.right;
     var yStart = startPoint.top;
@@ -168,14 +168,14 @@
 
   Gameboard.prototype.checkHorizontal = checkHorizontal;
   Gameboard.prototype.checkVertical = checkVertical;
-  Gameboard.prototype.checkUpDownDiagonal = checkUpDownDiagonal;
-  Gameboard.prototype.checkDownUpDiagonal = checkDownUpDiagonal;
+  Gameboard.prototype.checkLeftRightDiagonal = checkLeftRightDiagonal;
+  Gameboard.prototype.checkRightLeftDiagonal = checkRightLeftDiagonal;
 
   /* Based on the piece that was just added to the board, this function checks for
      any wins that could have just happened due to this addition */
   Gameboard.prototype.checkForWin = function(row, column) {
     if (this.checkHorizontal(row, column) || this.checkVertical(row, column) ||
-      this.checkUpDownDiagonal(row, column) || this.checkDownUpDiagonal(row, column)) {
+      this.checkLeftRightDiagonal(row, column) || this.checkRightLeftDiagonal(row, column)) {
       return true;
     }
     return false;

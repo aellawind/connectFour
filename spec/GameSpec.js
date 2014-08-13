@@ -73,34 +73,56 @@ describe('Connect Four Game Logic', function() {
 
   });
 
-  describe('Checking for four-in-a-row after adding a piece to the game baord', function() {
+  describe('Checking for four-in-a-row after adding a piece to the game board', function() {
 
+    var testBoard;
     beforeEach(function() {
-      var gameBoard = new Gameboard(6,7);
+      testBoard = new Gameboard(6,7);
+      testBoard.boardMatrix[testBoard.getDropLocation(1)][1] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(2)][2] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(3)][3] = 'r';
+      testBoard.currentPlayer = new Player('r','Amira');
     });
 
-    it('checks for any horizontal four-in-a-row when dropping into the end', function() {
-      
+    it('checks for horizontal four-in-a-row', function() {
+      expect(testBoard.checkHorizontal(5,5)).equals(false);
+      testBoard.boardMatrix[testBoard.getDropLocation(0)][0] = 'r';
+      expect(testBoard.checkHorizontal(5,0)).equals(true);
     });
 
-    it('checks for any horizontal four-in-a-row to the left or right when dropping into the middle', function() {
-     
-    });
-
-    it('checks for any diagonal four-in-a-row', function() {
-      
+    it('checks for vertical four-in-a-row', function() {  
+      expect(testBoard.checkVertical(2,5)).equals(false);
+      testBoard.boardMatrix[testBoard.getDropLocation(5)][5] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(5)][5] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(5)][5] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(5)][5] = 'r';
+      expect(testBoard.checkVertical(2,5)).equals(true);
     });
 
     it('checks for any diagonal up-down left-right four-in-a-row', function() {
-      
+      expect(testBoard.checkRightLeftDiagonal(2,4)).equals(false);
+      testBoard.boardMatrix[testBoard.getDropLocation(2)][2] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(3)][3] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(4)][4] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(3)][3] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(4)][4] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(4)][4] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(4)][4] = 'r';
+      expect(testBoard.checkRightLeftDiagonal(2,4)).equals(true);
     });
 
     it('checks for any diagonal up-down right-left four-in-a-row', function() {
-     
-    });
-
-    it('checks for all potential four-in-a-row wins', function() {
-     
+      expect(testBoard.checkLeftRightDiagonal(5,6)).equals(false);
+      testBoard.boardMatrix[testBoard.getDropLocation(3)][3] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(3)][3] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(3)][3] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(4)][4] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(4)][4] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(4)][4] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(5)][5] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(5)][5] = 'r';
+      testBoard.boardMatrix[testBoard.getDropLocation(6)][6] = 'r';
+      expect(testBoard.checkLeftRightDiagonal(5,6)).equals(true);
     });
 
   });
