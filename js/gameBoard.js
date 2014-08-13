@@ -206,7 +206,7 @@
   Gameboard.prototype.switchPlayer = function() {
     // If there is no four a row, we switch the current player and return false
     this.currentPlayer = this.currentPlayer === this.playerOne ? this.playerTwo : this.playerOne;
-    moveLineTo(this.currentPlayer);
+    return this.currentPlayer;
   };
 
   /* This function animates a piece from the top of the board to the inputted location
@@ -243,7 +243,7 @@
             if (isWin) {
               board.win();
             }
-            board.switchPlayer();
+            moveLineTo(board.switchPlayer());
             $("#screenCover").css('display', 'none');
           }, row * 250 + 250);
         }
