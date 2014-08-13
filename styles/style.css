@@ -32,11 +32,10 @@ body {
 
 /* Styling for players and showing whose turn it is */
 
-.players {
-  margin-top:-20px;
+#players {
+  margin-top:-15px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom:50px;
   display: block;
   float: none;
   width:50%;
@@ -47,13 +46,13 @@ body {
   font-family: "Lucida Bright", Georgia, serif;
 }
 
-.players #playerone {
+#players #playerone {
   float:left;
   margin-left:25px;
   margin-bottom:20px;
 }
 
-.players #playertwo {
+#players #playertwo {
   float:right;
   margin-right:25px;
   margin-bottom:20px;
@@ -61,7 +60,7 @@ body {
 
 #horizontalLine {
   width: 50%;
-  border-top: 3px solid #0066FF;
+  border-top: 4px solid #0159DD;
   position:relative;
   bottom:-20px;
 }
@@ -77,6 +76,7 @@ body {
   border: 2px solid #375f95;
   margin-left: auto;
   margin-right: auto;
+  margin-top:55px;
   box-shadow: 10px 10px 5px #363631;
   border-radius: 9px;
   -moz-border-radius: 9px;
